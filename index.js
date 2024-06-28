@@ -3,6 +3,8 @@ const path = require("path")
 const cookieParser = require("cookie-parser")
 const {restrictToLoggedInUserOnly, checkAuth} = require("./middlewares/auth")
 
+ const env = require('dotenv').config();
+
 
 const { connectToMongoDB } = require("./connect");
 const URL = require("./models/url");
@@ -12,9 +14,11 @@ const staticRoute = require('./routes/staticRouter')
 const userRoute = require("./routes/user")
 
 const app = express();
-const PORT = 4000;
+const PORT= 4000;
+const databaseUrl = process.env.DATABASE_URL;
 
-connectToMongoDB("mongodb://127.0.0.1/shortUrl")
+
+connectToMongoDB(databaseUrl)
   .then(() => console.log("MongoDb Connected !"))
   .catch((error) => console.log("MongoDb Error", error));
 
